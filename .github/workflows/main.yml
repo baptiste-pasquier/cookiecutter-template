@@ -1,0 +1,46 @@
+name: Build & Test
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-poetry:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10"]
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Install Poetry
+      run: pipx install poetry
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'poetry'
+
+    - name: Install dependencies
+      run: poetry install --no-interaction
+
+    - name: Init git
+      run: |
+        git config --global user.name "Your Name"
+        git config --global user.email "you@example.com"
+
+    - name: Test with pytest
+      run: poetry run pytest

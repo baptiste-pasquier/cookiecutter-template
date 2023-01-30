@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "{{ cookiecutter.project_slug }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.description }}"
+authors = ["{{ cookiecutter.author }} <{{ cookiecutter.email }}>"]
+readme = "README.md"
+packages = [{include = "{{ cookiecutter.module_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "{{ cookiecutter.python_version }}"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.poe.tasks]
+init_dev = [
+  { cmd = "poetry install --sync" },
+  { cmd = "pre-commit install" },
+]
+torch_cuda = [
+  { cmd = "poetry add numpy torch" },
+  { cmd = "pip install torch --force-reinstall --extra-index-url https://download.pytorch.org/whl/cu117" },
+]

@@ -1,0 +1,27 @@
+{
+    "project_name": "New Project",
+    "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "module_name": "{{ cookiecutter.project_slug|replace('-', '_') }}",
+    "version": "0.1.0",
+    "description": "",
+    "author": "Baptiste Pasquier",
+    "email": "pasquierbaptiste@hotmail.fr",
+    "github_username": "baptiste-pasquier",
+    "python_version": "^3.8.1",
+    "use_notebooks": [
+        "no",
+        "yes"
+    ],
+    "use_data_science": [
+        "no",
+        "yes"
+    ],
+    "use_torch": [
+        "no",
+        "yes"
+    ],
+    "_copy_without_render": [
+        ".github/workflows/main.yml",
+        ".github/workflows/quality.yml"
+    ]
+}
