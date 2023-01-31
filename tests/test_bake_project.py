@@ -93,7 +93,7 @@ def _test_data_science(result, use_data_science):
     # Git
     gitignore_path = Path(result.project_path, ".gitignore")
     with open(gitignore_path) as f:
-        assert ("data/\n" in f.readlines()) is use_data_science_bool
+        assert ("data/*\n" in f.readlines()) is use_data_science_bool
 
     # Poetry
     poetry_lock_path = Path(result.project_path, "poetry.lock")

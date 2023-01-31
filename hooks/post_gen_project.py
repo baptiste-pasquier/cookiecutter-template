@@ -22,7 +22,7 @@ if USE_DATA_SCIENCE == "yes":
     with open("data/.gitkeep", "w") as file:
         pass
     with open(".gitignore", "a") as f:
-        f.write("data/\n")
+        f.write("data/*\n")
 
     run("poetry add numpy pandas matplotlib seaborn scikit-learn")
 
