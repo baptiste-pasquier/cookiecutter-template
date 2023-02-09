@@ -8,7 +8,10 @@ def run(command):
     subprocess.run(shlex.split(command))
 
 
-run("poetry add flake8 black pre-commit pytest pytest-cov poethepoet --group dev")
+run(
+    "poetry add flake8 flake8-bugbear flake8-comprehensions flake8-simplify pep8-naming"
+    " black pre-commit pytest pytest-cov poethepoet --group dev"
+)
 
 USE_NOTEBOOKS = "{{ cookiecutter.use_notebooks}}"
 if USE_NOTEBOOKS == "yes":
