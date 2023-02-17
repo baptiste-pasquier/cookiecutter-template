@@ -44,5 +44,18 @@ jobs:
         git config --global user.name "Your Name"
         git config --global user.email "you@example.com"
 
-    - name: Test with pytest
+    - name: Test pyproject.toml up to date
+      run : |
+        poetry self add poetry-plugin-up
+        poetry up --latest
+        git add pyproject.toml
+        git diff --cached --exit-code
+
+    - name: Test pre-commit up to date
+      run : |
+        poetry run pre-commit autoupdate
+        git add .pre-commit-config.yaml
+        git diff --cached --exit-code
+
+    - name: Test pre-commit up to date in template
       run: poetry run pytest tests/test_bake_project.py::test_pre_commit_up_to_date
