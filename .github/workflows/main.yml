@@ -9,6 +9,8 @@ on:
     branches:
       - main
       - develop
+  schedule:
+    - cron: '45 5 * * 2'
 
 jobs:
   build-poetry:
