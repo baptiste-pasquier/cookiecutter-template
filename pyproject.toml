@@ -10,11 +10,11 @@ python = "^3.8.1"
 
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "^6.0.0"
+flake8 = "^6.1.0"
 black = "^23.7.0"
 pre-commit = "^3.3.3"
 pytest = "^7.4.0"
-pytest-cookies = { git = "https://github.com/Jacobb164/pytest-cookies.git" }
+pytest-cookies = "^0.7.0"
 cookiecutter = "^2.2.3"
 
 [build-system]
