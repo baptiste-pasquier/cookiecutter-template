@@ -20,6 +20,14 @@
         "no",
         "yes"
     ],
+    "add_test_ci": [
+        "yes",
+        "no"
+    ],
+    "add_codecov_ci": [
+        "yes",
+        "no"
+    ],
     "_copy_without_render": [
         ".github/workflows/main.yml",
         ".github/workflows/quality.yml"

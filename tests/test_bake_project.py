@@ -1,4 +1,5 @@
 import os
+import random
 import shlex
 import subprocess
 from contextlib import contextmanager
@@ -123,22 +124,67 @@ def _test_torch(result, use_torch):
         assert ('name = "torch"\n' in f.readlines()) is use_torch_bool
 
 
+def _test_test_ci(result, add_test_ci):
+    add_test_ci_bool = add_test_ci == "yes"
+
+    # Github action
+    file_path = Path(result.project_path, ".github", "workflows", "main.yml")
+    assert file_path.exists() is add_test_ci_bool
+
+    # README
+    readme_path = Path(result.project_path, "README.md")
+    with open(readme_path) as f:
+        test_bool = False
+        for line in f.readlines():
+            if "workflows/main.yml" in line:
+                test_bool = True
+        assert test_bool is add_test_ci_bool
+
+
+def _test_codecov_ci(result, add_codecov_ci):
+    add_codecov_ci_bool = add_codecov_ci == "yes"
+
+    # Github action
+    file_path = Path(result.project_path, ".github", "workflows", "codecov.yml")
+    assert file_path.exists() is add_codecov_ci_bool
+
+    # README
+    readme_path = Path(result.project_path, "README.md")
+    with open(readme_path) as f:
+        test_bool = False
+        for line in f.readlines():
+            if "codecov.io" in line:
+                test_bool = True
+        assert test_bool is add_codecov_ci_bool
+
+
 @pytest.mark.parametrize("use_data_science", ["no", "yes"])
 @pytest.mark.parametrize("use_notebooks", ["no", "yes"])
 @pytest.mark.parametrize("use_torch", ["no", "yes"])
-def test_bake(cookies, use_data_science, use_notebooks, use_torch):
-    with bake_in_temp_dir(
-        cookies,
-        extra_context={
-            "use_data_science": use_data_science,
-            "use_notebooks": use_notebooks,
-            "use_torch": use_torch,
-        },
-    ) as result:
-        _test_common(result)
-        _test_data_science(result, use_data_science)
-        _test_notebooks(result, use_notebooks)
-        _test_torch(result, use_torch)
+@pytest.mark.parametrize("add_test_ci", ["no", "yes"])
+@pytest.mark.parametrize("add_codecov_ci", ["no", "yes"])
+def test_bake(
+    cookies, use_data_science, use_notebooks, use_torch, add_test_ci, add_codecov_ci
+):
+    if random.random() < 0.5:
+        with bake_in_temp_dir(
+            cookies,
+            extra_context={
+                "use_data_science": use_data_science,
+                "use_notebooks": use_notebooks,
+                "use_torch": use_torch,
+                "add_test_ci": add_test_ci,
+                "add_codecov_ci": add_codecov_ci,
+            },
+        ) as result:
+            _test_common(result)
+            _test_data_science(result, use_data_science)
+            _test_notebooks(result, use_notebooks)
+            _test_torch(result, use_torch)
+            _test_test_ci(result, add_test_ci)
+            _test_codecov_ci(result, add_codecov_ci)
+    else:
+        pytest.skip()
 
 
 def test_pre_commit_up_to_date(cookies):
