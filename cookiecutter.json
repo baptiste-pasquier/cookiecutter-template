@@ -7,7 +7,7 @@
     "author": "Baptiste Pasquier",
     "email": "pasquierbaptiste@hotmail.fr",
     "github_username": "baptiste-pasquier",
-    "python_version": "^3.9.0",
+    "python_version": ">=3.9.0,<3.13",
     "use_notebooks": [
         "no",
         "yes"
