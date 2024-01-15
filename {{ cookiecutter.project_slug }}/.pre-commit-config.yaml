@@ -1,11 +1,11 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 23.12.1
     hooks:
       - id: black-jupyter
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
+    rev: 7.0.0
     hooks:
       - id: flake8
         additional_dependencies:
@@ -15,7 +15,7 @@ repos:
           - pep8-naming
 
   - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
 
@@ -26,7 +26,7 @@ repos:
         args: [--py38-plus]
 
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.7.0
+    rev: 1.7.1
     hooks:
       - id: nbqa-flake8
         additional_dependencies:
@@ -39,7 +39,7 @@ repos:
         args: ["--py38-plus"]
 
   - repo: https://github.com/python-poetry/poetry
-    rev: 1.6.0
+    rev: 1.7.0
     hooks:
       - id: poetry-check
       - id: poetry-lock
