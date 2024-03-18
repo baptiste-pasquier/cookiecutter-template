@@ -15,7 +15,7 @@ jobs:
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Install Poetry
-        run: pipx install poetry
+        uses: snok/install-poetry@v1
 
       - name: Set up Python
         uses: actions/setup-python@v5
