@@ -1,9 +1,7 @@
 name: Update example project
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   run:
