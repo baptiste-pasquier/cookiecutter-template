@@ -1,9 +1,9 @@
-name: Code quality
+name: Dependencies
 
 on: [push, pull_request]
 
 jobs:
-  pre-commit:
+  dependencies:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -26,5 +26,15 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction
 
-      - name: Run pre-commit
-        run: poetry run pre-commit run -a --show-diff-on-failure
+      - name: Test main pyproject.toml up to date
+        run: |
+          poetry self add poetry-plugin-up
+          poetry up --latest
+          git add pyproject.toml
+          git diff --cached --exit-code
+
+      - name: Test main pre-commit up to date
+        run: |
+          poetry run pre-commit autoupdate
+          git add .pre-commit-config.yaml
+          git diff --cached --exit-code
