@@ -32,16 +32,13 @@ def remove_line_from_file(file_path: str, target_string: str):
         f.writelines(filtered_lines)
 
 
-run(
-    "poetry add flake8 flake8-bugbear flake8-comprehensions flake8-simplify pep8-naming"
-    " black pre-commit pytest pytest-cov poethepoet --group dev"
-)
+run("poetry add poethepoet pre-commit pytest pytest-cov ruff --group dev")
 
 USE_NOTEBOOKS = "{{ cookiecutter.use_notebooks}}"
 if USE_NOTEBOOKS == "yes":
     os.mkdir("notebooks")
 
-    run('poetry add black[jupyter] ipykernel "ipywidgets>=7.0,<8.0" --group dev')
+    run("poetry add ipykernel ipywidgets --group dev")
 
 USE_DATA_SCIENCE = "{{ cookiecutter.use_data_science}}"
 if USE_DATA_SCIENCE == "yes":

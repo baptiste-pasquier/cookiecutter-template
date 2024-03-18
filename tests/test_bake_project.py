@@ -11,8 +11,7 @@ from cookiecutter.utils import rmtree
 
 @contextmanager
 def inside_dir(dirpath):
-    """
-    Execute code from inside the given directory
+    """Execute code from inside the given directory
     :param dirpath: String, path of the directory the command is being run.
     """
     old_path = os.getcwd()
@@ -25,8 +24,7 @@ def inside_dir(dirpath):
 
 @contextmanager
 def bake_in_temp_dir(cookies, *args, **kwargs):
-    """
-    Delete the temporal directory that is created when executing the tests
+    """Delete the temporal directory that is created when executing the tests
     :param cookies: pytest_cookies.Cookies,
         cookie to be baked and its temporal files will be removed
     """
@@ -38,8 +36,7 @@ def bake_in_temp_dir(cookies, *args, **kwargs):
 
 
 def run_inside_dir(command, dirpath):
-    """
-    Run a command from inside a given directory, returning the exit status
+    """Run a command from inside a given directory, returning the exit status
     :param command: Command that will be executed
     :param dirpath: String, path of the directory the command is being run.
     """
@@ -48,7 +45,7 @@ def run_inside_dir(command, dirpath):
 
 
 def check_output_inside_dir(command, dirpath):
-    "Run a command from inside a given directory, returning the command output"
+    """Run a command from inside a given directory, returning the command output"""
     with inside_dir(dirpath):
         return subprocess.check_output(shlex.split(command))
 
@@ -78,7 +75,7 @@ def _test_common(result):
     # Poetry
     poetry_lock_path = Path(result.project_path, "poetry.lock")
     with open(poetry_lock_path) as f:
-        assert 'name = "flake8"\n' in f.readlines()
+        assert 'name = "ruff"\n' in f.readlines()
 
     # Pytest
     assert run_inside_dir("pytest", str(result.project_path)) == 0

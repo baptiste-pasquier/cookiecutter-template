@@ -12,14 +12,16 @@ Cookiecutter template for Python projects with Poetry.
 ## Features
 
 - Dependency management with [Poetry]
-- Linting with [Flake8]
-- Code formatting with [Black]
-- Import sorting with [isort]
-- Automated Python syntax upgrades with [pyupgrade]
 - Pre-commit hooks with [pre-commit]
 - Testing with [pytest]
 - Code coverage with [Codecov]
 - Continuous integration with [GitHub Actions]
+- [Ruff] with following plugins:
+  - Linting with [Flake8]
+  - Code formatting with [Black]
+  - Import sorting with [isort]
+  - Automated Python syntax upgrades with [pyupgrade]
+  - Docstring style checks with [pydocstyle]
 
 [black]: https://github.com/psf/black
 [codecov]: https://about.codecov.io/
@@ -28,8 +30,10 @@ Cookiecutter template for Python projects with Poetry.
 [isort]: https://pycqa.github.io/isort/
 [poetry]: https://python-poetry.org/
 [pre-commit]: https://pre-commit.com/
+[pydocstyle]: https://www.pydocstyle.org/en/stable/
 [pytest]: https://docs.pytest.org/en/latest/
 [pyupgrade]: https://github.com/asottile/pyupgrade
+[ruff]: https://docs.astral.sh/ruff/
 
 ## Usage
 
