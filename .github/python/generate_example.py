@@ -1,4 +1,5 @@
 import shutil
+from pathlib import Path
 
 from cookiecutter.main import cookiecutter
 
@@ -16,7 +17,7 @@ cookiecutter(
 shutil.rmtree(r"cookiecutter-example/.git")
 
 # Edit README
-with open("cookiecutter-example/README.md") as f:
+with Path("cookiecutter-example/README.md").open() as f:
     lines = f.readlines()
 index = lines.index("Example of a project generated with cookiecutter-template.\n")
 lines.insert(
@@ -24,5 +25,5 @@ lines.insert(
     "**Template**: https://github.com/baptiste-pasquier/cookiecutter-template\n",
 )
 lines.insert(index + 1, "\n")
-with open("cookiecutter-example/README.md", "w") as f:
+with Path("cookiecutter-example/README.md").open("w") as f:
     f.writelines(lines)

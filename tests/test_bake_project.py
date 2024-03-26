@@ -26,7 +26,7 @@ def inside_dir(dirpath):
 def bake_in_temp_dir(cookies, *args, **kwargs):
     """Delete the temporal directory that is created when executing the tests
     :param cookies: pytest_cookies.Cookies,
-        cookie to be baked and its temporal files will be removed
+        cookie to be baked and its temporal files will be removed.
     """
     result = cookies.bake(*args, **kwargs)
     try:
@@ -45,20 +45,20 @@ def run_inside_dir(command, dirpath):
 
 
 def check_output_inside_dir(command, dirpath):
-    """Run a command from inside a given directory, returning the command output"""
+    """Run a command from inside a given directory, returning the command output."""
     with inside_dir(dirpath):
         return subprocess.check_output(shlex.split(command))
 
 
 def project_info(result):
-    """Get toplevel dir, project_slug, and project dir from baked cookies"""
+    """Get toplevel dir, project_slug, and project dir from baked cookies."""
     project_path = str(result.project_path)
     project_slug = os.path.split(project_path)[-1]
     project_dir = os.path.join(project_path, project_slug)
     return project_path, project_slug, project_dir
 
 
-def _test_common(result):
+def _test_common(result) -> None:
     assert result.exit_code == 0
     assert result.exception is None
     assert result.project_path.is_dir()
@@ -68,20 +68,20 @@ def _test_common(result):
     found_toplevel_files = [f.name for f in result.project_path.iterdir()]
     assert ".git" in found_toplevel_files
     gitignore_path = Path(result.project_path, ".gitignore")
-    with open(gitignore_path) as f:
+    with Path(gitignore_path).open() as f:
         lines = f.readlines()
     assert lines[-1] == "!.gitkeep\n"
 
     # Poetry
     poetry_lock_path = Path(result.project_path, "poetry.lock")
-    with open(poetry_lock_path) as f:
+    with Path(poetry_lock_path).open() as f:
         assert 'name = "ruff"\n' in f.readlines()
 
     # Pytest
     assert run_inside_dir("pytest", str(result.project_path)) == 0
 
 
-def _test_data_science(result, use_data_science):
+def _test_data_science(result, use_data_science: str) -> None:
     use_data_science_bool = use_data_science == "yes"
 
     # Folder
@@ -90,16 +90,16 @@ def _test_data_science(result, use_data_science):
 
     # Git
     gitignore_path = Path(result.project_path, ".gitignore")
-    with open(gitignore_path) as f:
+    with Path(gitignore_path).open() as f:
         assert ("data/*\n" in f.readlines()) is use_data_science_bool
 
     # Poetry
     poetry_lock_path = Path(result.project_path, "poetry.lock")
-    with open(poetry_lock_path) as f:
+    with Path(poetry_lock_path).open() as f:
         assert ('name = "scikit-learn"\n' in f.readlines()) is use_data_science_bool
 
 
-def _test_notebooks(result, use_notebooks):
+def _test_notebooks(result, use_notebooks: str) -> None:
     use_notebooks_bool = use_notebooks == "yes"
 
     # Folder
@@ -108,20 +108,20 @@ def _test_notebooks(result, use_notebooks):
 
     # Poetry
     poetry_lock_path = Path(result.project_path, "poetry.lock")
-    with open(poetry_lock_path) as f:
+    with Path(poetry_lock_path).open() as f:
         assert ('name = "ipykernel"\n' in f.readlines()) is use_notebooks_bool
 
 
-def _test_torch(result, use_torch):
+def _test_torch(result, use_torch: str) -> None:
     use_torch_bool = use_torch == "yes"
 
     # Poetry
     poetry_lock_path = Path(result.project_path, "poetry.lock")
-    with open(poetry_lock_path) as f:
+    with Path(poetry_lock_path).open() as f:
         assert ('name = "torch"\n' in f.readlines()) is use_torch_bool
 
 
-def _test_test_ci(result, add_test_ci):
+def _test_test_ci(result, add_test_ci: str) -> None:
     add_test_ci_bool = add_test_ci == "yes"
 
     # Github action
@@ -130,7 +130,7 @@ def _test_test_ci(result, add_test_ci):
 
     # README
     readme_path = Path(result.project_path, "README.md")
-    with open(readme_path) as f:
+    with Path(readme_path).open() as f:
         test_bool = False
         for line in f.readlines():
             if "workflows/main.yml" in line:
@@ -138,7 +138,7 @@ def _test_test_ci(result, add_test_ci):
         assert test_bool is add_test_ci_bool
 
 
-def _test_codecov_ci(result, add_codecov_ci):
+def _test_codecov_ci(result, add_codecov_ci: str) -> None:
     add_codecov_ci_bool = add_codecov_ci == "yes"
 
     # Github action
@@ -147,7 +147,7 @@ def _test_codecov_ci(result, add_codecov_ci):
 
     # README
     readme_path = Path(result.project_path, "README.md")
-    with open(readme_path) as f:
+    with Path(readme_path).open() as f:
         test_bool = False
         for line in f.readlines():
             if "codecov.io" in line:
@@ -161,8 +161,13 @@ def _test_codecov_ci(result, add_codecov_ci):
 @pytest.mark.parametrize("add_test_ci", ["no", "yes"])
 @pytest.mark.parametrize("add_codecov_ci", ["no", "yes"])
 def test_bake(
-    cookies, use_data_science, use_notebooks, use_torch, add_test_ci, add_codecov_ci
-):
+    cookies,
+    use_data_science: str,
+    use_notebooks: str,
+    use_torch: str,
+    add_test_ci: str,
+    add_codecov_ci: str,
+) -> None:
     if random.random() < 0.5:
         with bake_in_temp_dir(
             cookies,
@@ -184,7 +189,7 @@ def test_bake(
         pytest.skip()
 
 
-def test_pre_commit_up_to_date(cookies):
+def test_pre_commit_up_to_date(cookies) -> None:
     with bake_in_temp_dir(cookies) as result:
         assert result.project_path.is_dir()
 
